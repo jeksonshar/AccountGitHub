@@ -2,5 +2,10 @@
     <string name="app_name">AccGitHub</string>
     <string name="ok_http">OkHttp</string>
     <string name="retrofit">Retrofit</string>
+    <string name="login">Login: </string>
+    <string name="ID">ID:</string>
+    <string name="view_repository_button">View Repository</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
