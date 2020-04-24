@@ -14,6 +14,7 @@ import android.widget.Button;
 
 public class ChoiceFragment extends Fragment {
 
+    private String clicked = null;
     private Button okHttp;
     private Button retrofit;
 
@@ -24,7 +25,6 @@ public class ChoiceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -39,6 +39,7 @@ public class ChoiceFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         okHttp = view.findViewById(R.id.ok_http);
+        retrofit = view.findViewById(R.id.retrofit);
     }
 
     @Override
@@ -48,13 +49,24 @@ public class ChoiceFragment extends Fragment {
         okHttp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                FragmentTransaction transaction = getParentFragmentManager().
-                        beginTransaction().
-                        replace(R.id.fragment_container, new AccGitHubFragment());
-                transaction = transaction.addToBackStack(null);
-                transaction.commit();
+                clicked = "OkHttp";
+                makeTransaction();
             }
         });
+
+        retrofit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicked = "retrofit";
+                makeTransaction();
+            }
+        });
+    }
+    private void makeTransaction() {
+        FragmentTransaction transaction = getParentFragmentManager().
+                beginTransaction().
+                replace(R.id.fragment_container, new AccGitHubFragment(clicked));
+        transaction = transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

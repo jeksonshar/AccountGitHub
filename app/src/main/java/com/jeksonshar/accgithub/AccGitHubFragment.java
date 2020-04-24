@@ -15,18 +15,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jeksonshar.accgithub.okhttp.NetworkingWithOkHttp;
+import com.jeksonshar.accgithub.retrofit.NetworkingWithRetrofit;
 import com.squareup.picasso.Picasso;
 
 public class AccGitHubFragment extends Fragment {
 
-    static final String USER_LOGIN = "jeksonshar";
+    static final String USER_LOGIN = "jeksonshar";     // you may enter any user of GitHub
 
     private AccGitHuber mAccGitHuber;
 
+    private String clicked;
     private ImageView avatarView;
     private TextView userLoginView;
     private TextView userId;
     private Button repositoriesButton;
+
+    public AccGitHubFragment(String clicked) {
+        this.clicked = clicked;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +71,7 @@ public class AccGitHubFragment extends Fragment {
                 String urlRepo = "https://github.com/" +
                         USER_LOGIN +
                         "?tab=repositories";
-       // использование неявного интента для открытия страницы в Android браузере
+// использование неявного интента для открытия страницы в Android браузере
                 Uri addressRepositories = Uri.parse(urlRepo);
                 Intent openRepositories = new Intent(Intent.ACTION_VIEW, addressRepositories);
                 startActivity(openRepositories);
@@ -93,6 +100,10 @@ public class AccGitHubFragment extends Fragment {
     }
 
     private AccGitHuber executeRequest() {
-        return NetworkingWithOkHttp.makeRequest(USER_LOGIN);
+        if (clicked.equals("OkHttp")) {
+            return NetworkingWithOkHttp.makeRequest(USER_LOGIN);
+        } else {
+            return NetworkingWithRetrofit.makeRequest(USER_LOGIN);
+        }
     }
 }
