@@ -31,7 +31,7 @@ public class AccGitHubFragment extends Fragment {
     private TextView userId;
     private Button repositoriesButton;
 
-    public AccGitHubFragment(String clicked) {
+    AccGitHubFragment(String clicked) {
         this.clicked = clicked;
     }
 
@@ -39,7 +39,7 @@ public class AccGitHubFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        new InternetRequestTask().execute();
+        setRetainInstance(true);
     }
 
     @Nullable
@@ -47,6 +47,9 @@ public class AccGitHubFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        new InternetRequestTask().execute();
+
         View v = inflater.inflate(
                 R.layout.fragment_acc_github,
                 container,
