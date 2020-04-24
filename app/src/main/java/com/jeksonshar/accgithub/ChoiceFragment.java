@@ -1,6 +1,5 @@
 package com.jeksonshar.accgithub;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,10 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import java.util.List;
-
 public class ChoiceFragment extends Fragment {
-    static final String USER_LOGIN = "jeksonshar";
 
     private Button okHttp;
     private Button retrofit;
@@ -28,9 +24,7 @@ public class ChoiceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
 
-        new InternetRequestTask().execute();
     }
 
     @Override
@@ -54,32 +48,13 @@ public class ChoiceFragment extends Fragment {
         okHttp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 FragmentTransaction transaction = getParentFragmentManager().
                         beginTransaction().
-                        replace(R.id.fragment_container, AccGitHubFragment.newInstance(USER_LOGIN));
+                        replace(R.id.fragment_container, new AccGitHubFragment());
                 transaction = transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
-    }
-
-    // The class for a background task
-    private class InternetRequestTask extends AsyncTask<Void, Void, AccGitHuber> {
-
-        // Method will be called in background thread
-        @Override
-        protected AccGitHuber doInBackground(Void... voids) {
-            return executeRequest();
-        }
-
-        // Method will be called in main thread after the doInBackground() has finished
-        @Override
-        protected void onPostExecute(AccGitHuber gitHuber) {
-            //TODO
-        }
-    }
-
-    private AccGitHuber executeRequest() {
-        return NetworkingWithOkHttp.makeRequest(USER_LOGIN);
     }
 }

@@ -9,10 +9,6 @@ public class AccGitHuber {
     @SerializedName("avatar_url")
     private String avatarUrl;
 
-    public AccGitHuber(String userLogin) {
-        this.login = userLogin;
-    }
-
     public long getId() {
         return id;
     }
