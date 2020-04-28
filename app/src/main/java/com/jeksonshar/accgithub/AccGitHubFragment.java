@@ -53,11 +53,6 @@ public class AccGitHubFragment extends Fragment {
                 R.layout.fragment_acc_github,
                 container,
                 false);
-
-        userLoginView = v.findViewById(R.id.user_login_view);
-        userId = v.findViewById(R.id.user_id_view);
-        avatarView = v.findViewById(R.id.user_avatar_view);
-
         return  v;
     }
 
@@ -65,6 +60,9 @@ public class AccGitHubFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        userLoginView = getView().findViewById(R.id.user_login_view);
+        userId = getView().findViewById(R.id.user_id_view);
+        avatarView = getView().findViewById(R.id.user_avatar_view);
         repositoriesButton = getView().findViewById(R.id.repository_button);
 
         repositoriesButton.setOnClickListener(new View.OnClickListener() {
