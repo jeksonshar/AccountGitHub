@@ -49,11 +49,7 @@ public class AccGitHubFragment extends Fragment {
 
         new InternetRequestTask().execute();
 
-        View v = inflater.inflate(
-                R.layout.fragment_acc_github,
-                container,
-                false);
-        return  v;
+        return  inflater.inflate(R.layout.fragment_acc_github, container,false);
     }
 
     @Override
