@@ -14,13 +14,14 @@ import android.widget.Button;
 
 public class ChoiceFragment extends Fragment {
 
-    private String clicked = null;
     private Button okHttp;
     private Button retrofit;
 
     public ChoiceFragment() {
         super(R.layout.fragment_choice);
     }
+
+    enum Clicked {OK_HTTP, RETROFIT}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,23 +50,21 @@ public class ChoiceFragment extends Fragment {
         okHttp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clicked = "OkHttp";
-                makeTransaction();
+                makeTransaction(Clicked.OK_HTTP);
             }
         });
 
         retrofit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clicked = "retrofit";
-                makeTransaction();
+                makeTransaction(Clicked.RETROFIT);
             }
         });
     }
-    private void makeTransaction() {
+    private void makeTransaction(Clicked clicked) {
         FragmentTransaction transaction = getParentFragmentManager().
                 beginTransaction().
-                replace(R.id.fragment_container, new AccGitHubFragment(clicked));
+                replace(R.id.fragment_container, AccGitHubFragment.makeInstance(clicked));
         transaction = transaction.addToBackStack(null);
         transaction.commit();
     }

@@ -21,23 +21,22 @@ import com.squareup.picasso.Picasso;
 
 public class AccGitHubFragment extends Fragment {
 
-    static final String USER_LOGIN = "jeksonshar";     // you may enter any user of GitHub
+    private static final String KEY_CLICKED = "CLICKED";
+    private static final String USER_LOGIN = "jeksonshar";     // you may enter any user of GitHub
 
     private AccGitHuber mAccGitHuber;
 
-    private String clicked;
+    private ChoiceFragment.Clicked clicked;
     private ImageView avatarView;
     private TextView userLoginView;
     private TextView userId;
     private Button repositoriesButton;
 
-    AccGitHubFragment(String clicked) {
-        this.clicked = clicked;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+        clicked = (ChoiceFragment.Clicked) arguments.getSerializable(KEY_CLICKED);
 
         setRetainInstance(true);
     }
@@ -58,7 +57,6 @@ public class AccGitHubFragment extends Fragment {
         userLoginView = v.findViewById(R.id.user_login_view);
         userId = v.findViewById(R.id.user_id_view);
         avatarView = v.findViewById(R.id.user_avatar_view);
-        repositoriesButton = v.findViewById(R.id.repository_button);
 
         return  v;
     }
@@ -66,6 +64,8 @@ public class AccGitHubFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        repositoriesButton = getView().findViewById(R.id.repository_button);
 
         repositoriesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,10 +103,19 @@ public class AccGitHubFragment extends Fragment {
     }
 
     private AccGitHuber executeRequest() {
-        if (clicked.equals("OkHttp")) {
+        if (clicked.equals(ChoiceFragment.Clicked.OK_HTTP)) {
             return NetworkingWithOkHttp.makeRequest(USER_LOGIN);
         } else {
             return NetworkingWithRetrofit.makeRequest(USER_LOGIN);
         }
+    }
+
+    static AccGitHubFragment makeInstance(ChoiceFragment.Clicked clicked) {
+        Bundle args = new Bundle();
+        args.putSerializable(KEY_CLICKED, clicked);
+
+        AccGitHubFragment fragment = new AccGitHubFragment();
+        fragment.setArguments(args);
+        return  fragment;
     }
 }
