@@ -3,11 +3,14 @@ package com.jeksonshar.accgithub;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +28,7 @@ public class AccGitHubFragment extends Fragment {
     private static final String USER_LOGIN = "jeksonshar";     // you may enter any user of GitHub
 
     private AccGitHuber mAccGitHuber;
+    private AccGitHubViewModel mAccGitHubViewModel;
 
     private ChoiceFragment.Clicked clicked;
     private ImageView avatarView;
@@ -38,7 +42,8 @@ public class AccGitHubFragment extends Fragment {
         Bundle arguments = getArguments();
         clicked = (ChoiceFragment.Clicked) arguments.getSerializable(KEY_CLICKED);
 
-        setRetainInstance(true);
+      new InternetRequestTask().execute();
+
     }
 
     @Nullable
@@ -47,8 +52,21 @@ public class AccGitHubFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        new InternetRequestTask().execute();
+    mAccGitHubViewModel = new ViewModelProvider(this).get(AccGitHubViewModel.class);
 
+    mAccGitHubViewModel.getRequest().observe(getViewLifecycleOwner(), new Observer<AccGitHuber>() {
+
+        @Override
+        public void onChanged(AccGitHuber accGitHuber) {
+            mAccGitHuber = accGitHuber;
+            Log.d("mAccGitHuber = ", String.valueOf(mAccGitHuber));
+            if (mAccGitHuber != null) {
+                userLoginView.setText(mAccGitHuber.getLogin());
+                userId.setText(String.valueOf(mAccGitHuber.getId()));
+                Picasso.get().load(mAccGitHuber.getAvatarUrl()).into(avatarView);
+            }
+        }
+    });
         return  inflater.inflate(R.layout.fragment_acc_github, container,false);
     }
 
@@ -74,6 +92,7 @@ public class AccGitHubFragment extends Fragment {
                 startActivity(openRepositories);
             }
         });
+
     }
 
     // The class for a background task
@@ -84,25 +103,21 @@ public class AccGitHubFragment extends Fragment {
         protected AccGitHuber doInBackground(Void... voids) {
             return executeRequest();
         }
-
-        // Method will be called in main thread after the doInBackground() has finished
-        @Override
-        protected void onPostExecute(AccGitHuber gitHuber) {
-            mAccGitHuber = gitHuber;
-
-            userLoginView.setText(mAccGitHuber.getLogin());
-            userId.setText( String.valueOf(mAccGitHuber.getId()));
-            Picasso.get().load(mAccGitHuber.getAvatarUrl()).into(avatarView);
-        }
     }
 
     private AccGitHuber executeRequest() {
-        if (clicked.equals(ChoiceFragment.Clicked.OK_HTTP)) {
-            return NetworkingWithOkHttp.makeRequest(USER_LOGIN);
-        } else {
-            return NetworkingWithRetrofit.makeRequest(USER_LOGIN);
+        Log.d("Запрос выполнен ", " + ");
+        AccGitHuber request;
+            if (clicked.equals(ChoiceFragment.Clicked.OK_HTTP)) {
+                request = NetworkingWithOkHttp.makeRequest(USER_LOGIN);
+                mAccGitHubViewModel.saveRequest(request);
+                return request;
+            } else {
+                request = NetworkingWithRetrofit.makeRequest(USER_LOGIN);
+                mAccGitHubViewModel.saveRequest(request);
+                return request;
+            }
         }
-    }
 
     static AccGitHubFragment makeInstance(ChoiceFragment.Clicked clicked) {
         Bundle args = new Bundle();
