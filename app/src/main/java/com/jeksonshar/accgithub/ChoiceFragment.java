@@ -21,8 +21,6 @@ public class ChoiceFragment extends Fragment {
         super(R.layout.fragment_choice);
     }
 
-    enum Clicked {OK_HTTP, RETROFIT}
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,21 +48,22 @@ public class ChoiceFragment extends Fragment {
         okHttp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeTransaction(Clicked.OK_HTTP);
+                makeTransaction(AccGitHubFragment.ChoiceOfRequest.OK_HTTP);
             }
         });
 
         retrofit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeTransaction(Clicked.RETROFIT);
+                makeTransaction(AccGitHubFragment.ChoiceOfRequest.RETROFIT);
             }
         });
     }
-    private void makeTransaction(Clicked clicked) {
+
+    private void makeTransaction(AccGitHubFragment.ChoiceOfRequest choice) {
         FragmentTransaction transaction = getParentFragmentManager().
                 beginTransaction().
-                replace(R.id.fragment_container, AccGitHubFragment.makeInstance(clicked));
+                replace(R.id.fragment_container, AccGitHubFragment.makeInstance(choice));
         transaction = transaction.addToBackStack(null);
         transaction.commit();
     }

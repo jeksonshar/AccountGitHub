@@ -5,20 +5,21 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
-    private final ChoiceFragment.Clicked clicked;
-    private final String USER_LOGIN;
 
-    ViewModelFactory(ChoiceFragment.Clicked clicked, String userLogin) {
+    private final AccGitHubFragment.ChoiceOfRequest choice;
+    private final String userLogin;
+
+    ViewModelFactory(AccGitHubFragment.ChoiceOfRequest choice, String userLogin) {
         super();
-        this.clicked = clicked;
-        this.USER_LOGIN = userLogin;
+        this.choice = choice;
+        this.userLogin = userLogin;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass == AccGitHubViewModel.class) {
-            return (T) new AccGitHubViewModel(clicked, USER_LOGIN);
+            return (T) new AccGitHubViewModel(choice, userLogin);
         }
         return super.create(modelClass);
     }

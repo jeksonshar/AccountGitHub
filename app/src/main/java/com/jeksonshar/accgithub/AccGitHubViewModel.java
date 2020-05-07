@@ -2,6 +2,7 @@ package com.jeksonshar.accgithub;
 
 import android.os.AsyncTask;
 
+import androidx.annotation.MainThread;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,21 +10,19 @@ import androidx.lifecycle.ViewModel;
 import com.jeksonshar.accgithub.okhttp.NetworkingWithOkHttp;
 import com.jeksonshar.accgithub.retrofit.NetworkingWithRetrofit;
 
-import java.util.concurrent.ExecutionException;
-
 class AccGitHubViewModel extends ViewModel {
 
-    private final ChoiceFragment.Clicked clicked;
-    private final String USER_LOGIN;
+    private final AccGitHubFragment.ChoiceOfRequest choice;
+    private final String userLogin;
 
     private MutableLiveData<AccGitHuber> mStore;
 
-    AccGitHubViewModel(ChoiceFragment.Clicked clicked, String userLogin) {
-        this.clicked = clicked;
-        this.USER_LOGIN = userLogin;
+    AccGitHubViewModel(AccGitHubFragment.ChoiceOfRequest choice, String userLogin) {
+        this.choice = choice;
+        this.userLogin = userLogin;
     }
 
-    LiveData<AccGitHuber> getRequest() throws ExecutionException, InterruptedException {
+    LiveData<AccGitHuber> getRequest()  {
         if (mStore == null) {
             mStore = new MutableLiveData<>();
             setRequest();
@@ -31,10 +30,10 @@ class AccGitHubViewModel extends ViewModel {
         return mStore;
     }
 
-    private void setRequest() throws ExecutionException, InterruptedException {
-        mStore.postValue((new InternetRequestTask().execute()).get());
+    @MainThread
+    private void setRequest()  {
+        new InternetRequestTask().execute();
     }
-
 
     // The class for a background task
     private class InternetRequestTask extends AsyncTask<Void, Void, AccGitHuber> {
@@ -44,13 +43,19 @@ class AccGitHubViewModel extends ViewModel {
         protected AccGitHuber doInBackground(Void... voids) {
             return executeRequest();
         }
+
+        // Method will be called in main thread after the doInBackground() has finished
+        @Override
+        protected void onPostExecute(AccGitHuber accGitHuber) {
+            mStore.postValue(accGitHuber);
+        }
     }
 
     private AccGitHuber executeRequest() {
-        if (clicked.equals(ChoiceFragment.Clicked.OK_HTTP)) {
-            return NetworkingWithOkHttp.makeRequest(USER_LOGIN);
+        if (choice.equals(AccGitHubFragment.ChoiceOfRequest.OK_HTTP)) {
+            return NetworkingWithOkHttp.makeRequest(userLogin);
         } else {
-            return NetworkingWithRetrofit.makeRequest(USER_LOGIN);
+            return NetworkingWithRetrofit.makeRequest(userLogin);
         }
     }
 }

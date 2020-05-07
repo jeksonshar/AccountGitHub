@@ -19,27 +19,29 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.concurrent.ExecutionException;
-
 public class AccGitHubFragment extends Fragment {
 
-    private static final String KEY_CLICKED = "CLICKED";
+    private static final String KEY_CHOICE = "choice";
     private static final String USER_LOGIN = "jeksonshar";     // you may enter any user of GitHub
 
     private AccGitHuber mAccGitHuber;
     private AccGitHubViewModel mAccGitHubViewModel;
 
-    private ChoiceFragment.Clicked clicked;
     private ImageView avatarView;
     private TextView userLoginView;
     private TextView userId;
     private Button repositoriesButton;
 
+    enum ChoiceOfRequest {OK_HTTP, RETROFIT}
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
-        clicked = (ChoiceFragment.Clicked) arguments.getSerializable(KEY_CLICKED);
+        mAccGitHubViewModel = new ViewModelProvider(this,
+                new ViewModelFactory((ChoiceOfRequest)arguments
+                        .getSerializable(KEY_CHOICE), USER_LOGIN))
+                .get(AccGitHubViewModel.class);
     }
 
     @Nullable
@@ -47,10 +49,6 @@ public class AccGitHubFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
-    mAccGitHubViewModel = new ViewModelProvider(this,
-            new ViewModelFactory(clicked, USER_LOGIN))
-            .get(AccGitHubViewModel.class);
 
         return  inflater.inflate(R.layout.fragment_acc_github, container,false);
     }
@@ -64,7 +62,6 @@ public class AccGitHubFragment extends Fragment {
         avatarView = getView().findViewById(R.id.user_avatar_view);
         repositoriesButton = getView().findViewById(R.id.repository_button);
 
-        try {
             mAccGitHubViewModel.getRequest().observe(getViewLifecycleOwner(),
                 new Observer<AccGitHuber>() {
 
@@ -81,9 +78,6 @@ public class AccGitHubFragment extends Fragment {
                             }
                         }
                     });
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
 
         repositoriesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,9 +94,9 @@ public class AccGitHubFragment extends Fragment {
         });
     }
 
-    static AccGitHubFragment makeInstance(ChoiceFragment.Clicked clicked) {
+    static AccGitHubFragment makeInstance(ChoiceOfRequest choice) {
         Bundle args = new Bundle();
-        args.putSerializable(KEY_CLICKED, clicked);
+        args.putSerializable(KEY_CHOICE, choice);
 
         AccGitHubFragment fragment = new AccGitHubFragment();
         fragment.setArguments(args);
