@@ -11,8 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AccGitHubFragment"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.account.AccGitHubFragment"></activity>
+        <activity android:name=".ui.root.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

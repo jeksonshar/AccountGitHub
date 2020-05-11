@@ -1,6 +1,6 @@
-package com.jeksonshar.accgithub.retrofit;
+package com.jeksonshar.accgithub.requestby.retrofit;
 
-import com.jeksonshar.accgithub.AccGitHuber;
+import com.jeksonshar.accgithub.model.AccGitHuber;
 
 import java.io.IOException;
 

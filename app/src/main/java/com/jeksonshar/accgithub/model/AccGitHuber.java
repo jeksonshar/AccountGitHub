@@ -1,4 +1,4 @@
-package com.jeksonshar.accgithub;
+package com.jeksonshar.accgithub.model;
 
 import com.google.gson.annotations.SerializedName;
 

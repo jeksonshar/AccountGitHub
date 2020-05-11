@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:gravity="center"
-    tools:context=".ChoiceFragment">
+    tools:context=".ui.choice.ChoiceFragment">
 
 <Button
     android:id="@+id/ok_http"

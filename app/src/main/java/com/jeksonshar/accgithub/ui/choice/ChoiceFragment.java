@@ -1,4 +1,4 @@
-package com.jeksonshar.accgithub;
+package com.jeksonshar.accgithub.ui.choice;
 
 import android.os.Bundle;
 
@@ -11,6 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.jeksonshar.accgithub.ui.account.AccGitHubFragment;
+import com.jeksonshar.accgithub.ui.account.ChoiceOfRequest;
+import com.jeksonshar.accgithub.R;
 
 public class ChoiceFragment extends Fragment {
 
@@ -48,19 +52,19 @@ public class ChoiceFragment extends Fragment {
         okHttp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeTransaction(AccGitHubFragment.ChoiceOfRequest.OK_HTTP);
+                makeTransaction(ChoiceOfRequest.OK_HTTP);
             }
         });
 
         retrofit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeTransaction(AccGitHubFragment.ChoiceOfRequest.RETROFIT);
+                makeTransaction(ChoiceOfRequest.RETROFIT);
             }
         });
     }
 
-    private void makeTransaction(AccGitHubFragment.ChoiceOfRequest choice) {
+    private void makeTransaction(ChoiceOfRequest choice) {
         FragmentTransaction transaction = getParentFragmentManager().
                 beginTransaction().
                 replace(R.id.fragment_container, AccGitHubFragment.makeInstance(choice));

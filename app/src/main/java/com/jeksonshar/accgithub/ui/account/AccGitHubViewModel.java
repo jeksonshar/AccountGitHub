@@ -1,4 +1,4 @@
-package com.jeksonshar.accgithub;
+package com.jeksonshar.accgithub.ui.account;
 
 import android.os.AsyncTask;
 
@@ -7,17 +7,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.jeksonshar.accgithub.okhttp.NetworkingWithOkHttp;
-import com.jeksonshar.accgithub.retrofit.NetworkingWithRetrofit;
+import com.jeksonshar.accgithub.model.AccGitHuber;
+import com.jeksonshar.accgithub.requestby.okhttp.NetworkingWithOkHttp;
+import com.jeksonshar.accgithub.requestby.retrofit.NetworkingWithRetrofit;
 
 class AccGitHubViewModel extends ViewModel {
 
-    private final AccGitHubFragment.ChoiceOfRequest choice;
+    private final ChoiceOfRequest choice;
     private final String userLogin;
 
     private MutableLiveData<AccGitHuber> mStore;
 
-    AccGitHubViewModel(AccGitHubFragment.ChoiceOfRequest choice, String userLogin) {
+    AccGitHubViewModel(ChoiceOfRequest choice, String userLogin) {
         this.choice = choice;
         this.userLogin = userLogin;
     }
@@ -52,7 +53,7 @@ class AccGitHubViewModel extends ViewModel {
     }
 
     private AccGitHuber executeRequest() {
-        if (choice.equals(AccGitHubFragment.ChoiceOfRequest.OK_HTTP)) {
+        if (choice.equals(ChoiceOfRequest.OK_HTTP)) {
             return NetworkingWithOkHttp.makeRequest(userLogin);
         } else {
             return NetworkingWithRetrofit.makeRequest(userLogin);

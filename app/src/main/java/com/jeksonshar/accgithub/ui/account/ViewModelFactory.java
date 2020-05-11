@@ -1,4 +1,4 @@
-package com.jeksonshar.accgithub;
+package com.jeksonshar.accgithub.ui.account;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final AccGitHubFragment.ChoiceOfRequest choice;
+    private final ChoiceOfRequest choice;
     private final String userLogin;
 
-    ViewModelFactory(AccGitHubFragment.ChoiceOfRequest choice, String userLogin) {
+    ViewModelFactory(ChoiceOfRequest choice, String userLogin) {
         super();
         this.choice = choice;
         this.userLogin = userLogin;

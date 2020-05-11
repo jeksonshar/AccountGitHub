@@ -1,4 +1,4 @@
-package com.jeksonshar.accgithub;
+package com.jeksonshar.accgithub.ui.account;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jeksonshar.accgithub.R;
+import com.jeksonshar.accgithub.model.AccGitHuber;
 import com.squareup.picasso.Picasso;
 
 public class AccGitHubFragment extends Fragment {
@@ -31,8 +33,6 @@ public class AccGitHubFragment extends Fragment {
     private TextView userLoginView;
     private TextView userId;
     private Button repositoriesButton;
-
-    enum ChoiceOfRequest {OK_HTTP, RETROFIT}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +94,7 @@ public class AccGitHubFragment extends Fragment {
         });
     }
 
-    static AccGitHubFragment makeInstance(ChoiceOfRequest choice) {
+    public static AccGitHubFragment makeInstance(ChoiceOfRequest choice) {
         Bundle args = new Bundle();
         args.putSerializable(KEY_CHOICE, choice);
 

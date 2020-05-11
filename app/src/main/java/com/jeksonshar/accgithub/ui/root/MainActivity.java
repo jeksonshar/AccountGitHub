@@ -1,10 +1,13 @@
-package com.jeksonshar.accgithub;
+package com.jeksonshar.accgithub.ui.root;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+
+import com.jeksonshar.accgithub.ui.choice.ChoiceFragment;
+import com.jeksonshar.accgithub.R;
 
 public class MainActivity extends AppCompatActivity {
 

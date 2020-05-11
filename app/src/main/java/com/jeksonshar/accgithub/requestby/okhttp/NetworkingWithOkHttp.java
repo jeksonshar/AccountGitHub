@@ -1,8 +1,8 @@
-package com.jeksonshar.accgithub.okhttp;
+package com.jeksonshar.accgithub.requestby.okhttp;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.jeksonshar.accgithub.AccGitHuber;
+import com.jeksonshar.accgithub.model.AccGitHuber;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
